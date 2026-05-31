@@ -2,7 +2,7 @@ function playEspn() {
   const video = document.getElementById("video");
   const status = document.getElementById("status");
 
-  const url = "TU_M3U8_AQUI";
+  const url = "https://www.vavoo.to/play/2648419344/index.m3u8";
 
   status.innerText = "Cargando stream...";
 
