@@ -1,4 +1,4 @@
-const ESPN_ENTRY_URL = "TU_M3U8_INICIAL_AQUI";
+const ESPN_ENTRY_URL = "https://www.vavoo.to/play/2648419344/index.m3u8";
 
 async function resolveFinalUrl(entryUrl) {
   const response = await fetch(entryUrl, {
@@ -22,7 +22,7 @@ async function playEspn() {
   try {
     status.innerText = "Obteniendo token...";
 
-    const finalUrl = await resolveFinalUrl(https://www.vavoo.to/play/2648419344/index.m3u8);
+    const finalUrl = await resolveFinalUrl(ESPN_ENTRY_URL);
 
     status.innerText = "Token obtenido. Cargando video...";
 
