@@ -1,4 +1,4 @@
-const ESPN_ENTRY_URL = "https://www.vavoo.to/play/2648419344/index.m3u8";
+const ESPN_ENTRY_URL = "http://livex.pop-app.live/s4n/poplive/ch313/playlist.m3u8";
 
 async function resolveFinalUrl(entryUrl) {
   const response = await fetch(entryUrl, {
