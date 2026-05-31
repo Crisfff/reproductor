@@ -1,35 +1,60 @@
-function playEspn() {
+const ESPN_ENTRY_URL = "TU_M3U8_INICIAL_AQUI";
+
+async function resolveFinalUrl(entryUrl) {
+  const response = await fetch(entryUrl, {
+    method: "GET",
+    redirect: "follow"
+  });
+
+  console.log("URL final:", response.url);
+
+  if (!response.ok) {
+    throw new Error("HTTP " + response.status);
+  }
+
+  return response.url;
+}
+
+async function playEspn() {
   const video = document.getElementById("video");
   const status = document.getElementById("status");
 
-  const url = "https://www.vavoo.to/play/2648419344/index.m3u8";
+  try {
+    status.innerText = "Obteniendo token...";
 
-  status.innerText = "Cargando stream...";
+    const finalUrl = await resolveFinalUrl(https://www.vavoo.to/play/2648419344/index.m3u8);
 
-  if (Hls.isSupported()) {
-    const hls = new Hls({
-      enableWorker: true,
-      lowLatencyMode: true
-    });
+    status.innerText = "Token obtenido. Cargando video...";
 
-    hls.loadSource(url);
-    hls.attachMedia(video);
+    if (Hls.isSupported()) {
+      const hls = new Hls({
+        enableWorker: true,
+        lowLatencyMode: true
+      });
 
-    hls.on(Hls.Events.MANIFEST_PARSED, function () {
-      video.play();
-      status.innerText = "Reproduciendo.";
-    });
+      hls.loadSource(finalUrl);
+      hls.attachMedia(video);
 
-    hls.on(Hls.Events.ERROR, function (event, data) {
-      console.error(data);
-      status.innerText = "Error al cargar el stream.";
-    });
+      hls.on(Hls.Events.MANIFEST_PARSED, function () {
+        video.play();
+        status.innerText = "Reproduciendo ESPN Deportes.";
+      });
 
-  } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-    video.src = url;
-    video.play();
-    status.innerText = "Reproduciendo.";
-  } else {
-    status.innerText = "Tu navegador no soporta HLS.";
+      hls.on(Hls.Events.ERROR, function (event, data) {
+        console.error("HLS ERROR:", data);
+        status.innerText = "Error: " + data.type + " / " + data.details;
+      });
+
+    } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+      video.src = finalUrl;
+      await video.play();
+      status.innerText = "Reproduciendo ESPN Deportes.";
+    } else {
+      status.innerText = "Tu navegador no soporta HLS.";
+    }
+
+  } catch (error) {
+    console.error(error);
+    status.innerText = "Error obteniendo token: " + error.message;
   }
 }
